@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>РЕСТО КАЛКУЛАТОР</title>
+
+<style>
+body{
+  margin:0;
+  background:#2b2b2b;
+  font-family:Arial,sans-serif;
+  display:flex;
+  justify-content:center;
+}
+
+.app{
+  max-width:400px;
+  width:95vw;
+  margin:2vh auto;
+}
+
+.calc{
+  background:#111;
+  border-radius:20px;
+  padding:12px;
+  box-shadow:0 12px 30px rgba(0,0,0,0.7);
+}
+
+/* Заглавие */
+h1{
+  color:#fff;
+  text-align:center;
+  margin:0;
+  font-size:26px;
+}
+.subtitle{
+  text-align:center;
+  font-size:12px;
+  margin:4px 0 12px;
+  color:#aaa;
+}
+.author{color:#2196f3;font-weight:bold;}
+.union{color:#fff;font-weight:800;}
+
+/* ===== ПОЛЕТА ЗА СУМИ ===== */
+.field{
+  display:flex;
+  align-items:center;
+  background:#222;
+  border-radius:12px;
+  padding:10px;
+  margin-bottom:10px;
+  border:2px solid #222;
+  transition:0.15s;
+}
+
+.field.active{
+  border:2px solid #fff;
+  box-shadow:0 0 10px rgba(255,255,255,0.4);
+}
+
+.field-label{
+  flex:1;
+  color:#aaa;
+  font-size:16px;
+  font-weight:bold;
+}
+
+.field input{
+  width:90px;
+  background:transparent;
+  border:none;
+  color:#fff;
+  font-size:22px;
+  text-align:right;
+  outline:none;
+}
+
+.currency-inside{
+  margin-left:6px;
+  color:#fff;
+  font-size:18px;
+}
+
+/* Бутон валута */
+button.currency{
+  width:100%;
+  padding:12px;
+  font-size:18px;
+  border-radius:18px;
+  border:none;
+  margin-bottom:10px;
+  color:#fff;
+  cursor:pointer;
+  box-shadow:
+    0 6px 0 rgba(0,0,0,0.8),
+    0 12px 20px rgba(0,0,0,0.7);
+}
+button.currency:active{
+  transform:translateY(3px);
+  box-shadow:0 2px 0 rgba(0,0,0,0.8);
+}
+.btn-eur{background:#1e88e5;}
+.btn-bgn{background:#43a047;}
+
+/* Ресто */
+.result{
+  padding:8px;
+  border-radius:8px;
+  font-size:18px;
+  font-weight:bold;
+  text-align:right;
+  margin-bottom:4px;
+}
+.gray{background:#555;color:#eee;}
+.blue{background:#1565c0;color:#fff;}
+.green{background:#2e7d32;color:#fff;}
+.red{background:#b71c1c;color:#fff;}
+
+.or{
+  text-align:center;
+  color:#fff;
+  font-weight:bold;
+  margin:2px 0;
+}
+
+/* Клавиатура */
+.keypad{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:4px;
+  margin-top:8px;
+}
+.keypad button{
+  padding:12px;
+  font-size:18px;
+  border-radius:10px;
+  border:none;
+  background:#333;
+  color:#fff;
+}
+.keypad .comma{grid-column:span 2;}
+.keypad .del{grid-column:span 2;background:#8e2424;}
+.keypad .clear{grid-column:span 2;background:#555;}
+</style>
+</head>
+
+<body>
+<div class="app">
+<div class="calc">
+
+<h1>РЕСТО КАЛКУЛАТОР</h1>
+<div class="subtitle">
+  Създадено от <span class="author">Чавдар Христанов</span> – <span class="union">ЕДИНЕНИЕ</span>
+</div>
+
+<!-- СУМА ЗА ПЛАЩАНЕ -->
+<div class="field" onclick="setActive(bill,this)">
+  <div class="field-label">Сума за плащане</div>
+  <input id="bill" readonly>
+  <div class="currency-inside">€</div>
+</div>
+
+<!-- ПЛАТЕНО -->
+<div class="field" onclick="setActive(paid,this)">
+  <div class="field-label">Платено от клиента</div>
+  <input id="paid" readonly>
+  <div id="paidCur" class="currency-inside">€</div>
+</div>
+
+<button id="currencyBtn" class="currency btn-eur" onclick="toggleCurrency()">
+  Платено в: EUR
+</button>
+
+<div id="restoEUR" class="result gray">Ресто в EUR: 0,00</div>
+<div class="or">ИЛИ</div>
+<div id="restoBGN" class="result gray">Ресто в BGN: 0,00</div>
+
+<div class="keypad">
+  <button onclick="pressKey('1')">1</button>
+  <button onclick="pressKey('2')">2</button>
+  <button onclick="pressKey('3')">3</button>
+  <button onclick="pressKey('4')">4</button>
+
+  <button onclick="pressKey('5')">5</button>
+  <button onclick="pressKey('6')">6</button>
+  <button onclick="pressKey('7')">7</button>
+  <button onclick="pressKey('8')">8</button>
+
+  <button onclick="pressKey('9')">9</button>
+  <button onclick="pressKey('0')">0</button>
+  <button class="comma" onclick="pressKey(',')">,</button>
+
+  <button class="del" onclick="backspace()">⌫</button>
+  <button class="clear" onclick="clearField()">C</button>
+</div>
+
+</div>
+</div>
+
+<script>
+const RATE=1.95583;
+let paidCurrency="EUR";
+let activeInput=null;
+let activeField=null;
+
+const bill=document.getElementById("bill");
+const paid=document.getElementById("paid");
+
+function setActive(input,field){
+  document.querySelectorAll(".field").forEach(f=>f.classList.remove("active"));
+  activeInput=input;
+  activeField=field;
+  field.classList.add("active");
+}
+
+function parseBG(v){return parseFloat(v.replace(",", "."))||0;}
+function formatBG(v){return v.toFixed(2).replace(".", ",");}
+
+function toggleCurrency(){
+  paidCurrency=paidCurrency==="EUR"?"BGN":"EUR";
+  document.getElementById("currencyBtn").textContent="Платено в: "+paidCurrency;
+  document.getElementById("currencyBtn").className="currency "+(paidCurrency==="EUR"?"btn-eur":"btn-bgn");
+  document.getElementById("paidCur").textContent=paidCurrency==="EUR"?"€":"лв.";
+  calculate();
+}
+
+function calculate(){
+  const billEUR=parseBG(bill.value);
+  const paidVal=parseBG(paid.value);
+  const paidEUR=paidCurrency==="BGN"?paidVal/RATE:paidVal;
+  const restoEUR=paidEUR-billEUR;
+
+  const eurBox=document.getElementById("restoEUR");
+  const bgnBox=document.getElementById("restoBGN");
+
+  eurBox.textContent="Ресто в EUR: "+formatBG(restoEUR);
+  bgnBox.textContent="Ресто в BGN: "+formatBG(restoEUR*RATE);
+
+  if(restoEUR<0){
+    eurBox.className="result red";
+    bgnBox.className="result red";
+  }else if(restoEUR===0){
+    eurBox.className="result gray";
+    bgnBox.className="result gray";
+  }else{
+    eurBox.className="result blue";
+    bgnBox.className="result green";
+  }
+}
+
+function pressKey(k){
+  if(!activeInput)return;
+  let v=activeInput.value;
+  if(k===',' && v.includes(','))return;
+  if(v.includes(',') && v.split(',')[1].length>=2)return;
+  activeInput.value=v+k;
+  calculate();
+}
+
+function backspace(){
+  if(!activeInput)return;
+  activeInput.value=activeInput.value.slice(0,-1);
+  calculate();
+}
+
+function clearField(){
+  if(!activeInput)return;
+  activeInput.value="";
+  calculate();
+}
+
+window.onload=()=>setActive(bill,document.querySelector(".field"));
+</script>
+
+</body>
+</html>
