@@ -13,13 +13,11 @@ body{
   display:flex;
   justify-content:center;
 }
-
 .app{
   max-width:400px;
   width:95vw;
   margin:2vh auto;
 }
-
 .calc{
   background:#111;
   border-radius:20px;
@@ -27,7 +25,7 @@ body{
   box-shadow:0 12px 30px rgba(0,0,0,0.7);
 }
 
-/* Заглавие */
+/* ===== ЗАГЛАВИЕ ===== */
 h1{
   color:#fff;
   text-align:center;
@@ -35,15 +33,37 @@ h1{
   font-size:26px;
 }
 .subtitle{
-  text-align:center;
+  display:flex;
+  align-items:flex-end;
+  justify-content:center;
+  gap:8px;
   font-size:12px;
-  margin:4px 0 12px;
+  margin:6px 0 12px;
   color:#aaa;
+  flex-wrap:wrap;
 }
 .author{color:#2196f3;font-weight:bold;}
 .union{color:#fff;font-weight:800;}
 
-/* ===== ПОЛЕТА ЗА СУМИ ===== */
+.author-img{
+  height:36px;
+  width:36px;
+  border-radius:50%;
+  object-fit:cover;
+  border:1px solid #555;
+}
+.union-logo{
+  height:20px;
+  width:auto;
+}
+.author-wrap,
+.union-wrap{
+  display:inline-flex;
+  align-items:flex-end;
+  gap:6px;
+}
+
+/* ===== ПОЛЕТА ===== */
 .field{
   display:flex;
   align-items:center;
@@ -52,21 +72,17 @@ h1{
   padding:10px;
   margin-bottom:10px;
   border:2px solid #222;
-  transition:0.15s;
 }
-
 .field.active{
-  border:2px solid #fff;
+  border-color:#fff;
   box-shadow:0 0 10px rgba(255,255,255,0.4);
 }
-
 .field-label{
   flex:1;
   color:#aaa;
   font-size:16px;
   font-weight:bold;
 }
-
 .field input{
   width:90px;
   background:transparent;
@@ -76,56 +92,90 @@ h1{
   text-align:right;
   outline:none;
 }
-
 .currency-inside{
   margin-left:6px;
   color:#fff;
   font-size:18px;
 }
 
-/* Бутон валута */
+/* ===== БУТОН ВАЛУТА ===== */
 button.currency{
   width:100%;
-  padding:12px;
-  font-size:18px;
+  padding:14px 16px;
   border-radius:18px;
   border:none;
   margin-bottom:10px;
-  color:#fff;
   cursor:pointer;
-  box-shadow:
-    0 6px 0 rgba(0,0,0,0.8),
-    0 12px 20px rgba(0,0,0,0.7);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  box-shadow:0 6px 0 rgba(0,0,0,0.8),0 14px 25px rgba(0,0,0,0.7);
 }
 button.currency:active{
-  transform:translateY(3px);
+  transform:translateY(4px);
   box-shadow:0 2px 0 rgba(0,0,0,0.8);
 }
-.btn-eur{background:#1e88e5;}
-.btn-bgn{background:#43a047;}
+.currency .hint{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+.currency .hint-text{
+  font-size:14px;
+  line-height:1.25;
+  color:#e0e0e0;
+}
+.currency .pulse-btn{
+  width:22px;
+  height:22px;
+  border-radius:50%;
+  background:#fff;
+  position:relative;
+  animation:pulse 1.4s infinite;
+}
+.currency .pulse-btn::after{
+  content:"";
+  position:absolute;
+  inset:5px;
+  border-radius:50%;
+  background:#2196f3;
+}
+@keyframes pulse{
+  0%{box-shadow:0 0 0 0 rgba(255,255,255,.7);}
+  70%{box-shadow:0 0 0 10px rgba(255,255,255,0);}
+  100%{box-shadow:0 0 0 0 rgba(255,255,255,0);}
+}
+.currency .currencies{
+  display:flex;
+  gap:8px;
+}
+.currency .cur-main,
+.currency .cur-alt,
+.currency .slash{
+  color:#fff;
+  font-weight:900;
+}
+.currency .cur-main{font-size:26px;}
+.currency .slash{font-size:20px;}
+.currency .cur-alt{font-size:18px;}
+.btn-eur{background:linear-gradient(#2196f3,#1565c0);}
+.btn-bgn{background:linear-gradient(#43a047,#2e7d32);}
 
-/* Ресто */
+/* ===== РЕЗУЛТАТ ===== */
 .result{
   padding:8px;
   border-radius:8px;
   font-size:18px;
   font-weight:bold;
   text-align:right;
-  margin-bottom:4px;
 }
 .gray{background:#555;color:#eee;}
 .blue{background:#1565c0;color:#fff;}
 .green{background:#2e7d32;color:#fff;}
 .red{background:#b71c1c;color:#fff;}
+.or{text-align:center;color:#fff;font-weight:bold;margin:4px 0;}
 
-.or{
-  text-align:center;
-  color:#fff;
-  font-weight:bold;
-  margin:2px 0;
-}
-
-/* Клавиатура */
+/* ===== КЛАВИАТУРА ===== */
 .keypad{
   display:grid;
   grid-template-columns:repeat(4,1fr);
@@ -151,18 +201,24 @@ button.currency:active{
 <div class="calc">
 
 <h1>РЕСТО КАЛКУЛАТОР</h1>
+
 <div class="subtitle">
-  Създадено от <span class="author">Чавдар Христанов</span> – <span class="union">ЕДИНЕНИЕ</span>
+  <img src="chavdar.jpg" class="author-img">
+  <span>Създадено от</span>
+  <span class="author">Чавдар Христанов</span>
+  –
+  <span class="union-wrap">
+    <span class="union">ЕДИНЕНИЕ</span>
+    <img src="единение.png" class="union-logo">
+  </span>
 </div>
 
-<!-- СУМА ЗА ПЛАЩАНЕ -->
 <div class="field" onclick="setActive(bill,this)">
   <div class="field-label">Сума за плащане</div>
   <input id="bill" readonly>
   <div class="currency-inside">€</div>
 </div>
 
-<!-- ПЛАТЕНО -->
 <div class="field" onclick="setActive(paid,this)">
   <div class="field-label">Платено от клиента</div>
   <input id="paid" readonly>
@@ -170,7 +226,15 @@ button.currency:active{
 </div>
 
 <button id="currencyBtn" class="currency btn-eur" onclick="toggleCurrency()">
-  Платено в: EUR
+  <div class="hint">
+    <div class="hint-text">Смяна валута<br>платено</div>
+    <div class="pulse-btn"></div>
+  </div>
+  <div class="currencies">
+    <span class="cur-main">€</span>
+    <span class="slash">/</span>
+    <span class="cur-alt">лв.</span>
+  </div>
 </button>
 
 <div id="restoEUR" class="result gray">Ресто в EUR: 0,00</div>
@@ -182,16 +246,13 @@ button.currency:active{
   <button onclick="pressKey('2')">2</button>
   <button onclick="pressKey('3')">3</button>
   <button onclick="pressKey('4')">4</button>
-
   <button onclick="pressKey('5')">5</button>
   <button onclick="pressKey('6')">6</button>
   <button onclick="pressKey('7')">7</button>
   <button onclick="pressKey('8')">8</button>
-
   <button onclick="pressKey('9')">9</button>
   <button onclick="pressKey('0')">0</button>
   <button class="comma" onclick="pressKey(',')">,</button>
-
   <button class="del" onclick="backspace()">⌫</button>
   <button class="clear" onclick="clearField()">C</button>
 </div>
@@ -200,18 +261,24 @@ button.currency:active{
 </div>
 
 <script>
+/* ===== НЕВИДИМИ БРОЯЧИ ===== */
+const NAMESPACE="chavdar-resto-kalkulator";
+fetch(`https://api.countapi.xyz/hit/${NAMESPACE}/total`);
+if(!localStorage.getItem("visited-"+NAMESPACE)){
+  localStorage.setItem("visited-"+NAMESPACE,"1");
+  fetch(`https://api.countapi.xyz/hit/${NAMESPACE}/unique`);
+}
+
+/* ===== ЛОГИКА ===== */
 const RATE=1.95583;
 let paidCurrency="EUR";
 let activeInput=null;
-let activeField=null;
-
 const bill=document.getElementById("bill");
 const paid=document.getElementById("paid");
 
 function setActive(input,field){
   document.querySelectorAll(".field").forEach(f=>f.classList.remove("active"));
   activeInput=input;
-  activeField=field;
   field.classList.add("active");
 }
 
@@ -220,58 +287,44 @@ function formatBG(v){return v.toFixed(2).replace(".", ",");}
 
 function toggleCurrency(){
   paidCurrency=paidCurrency==="EUR"?"BGN":"EUR";
-  document.getElementById("currencyBtn").textContent="Платено в: "+paidCurrency;
-  document.getElementById("currencyBtn").className="currency "+(paidCurrency==="EUR"?"btn-eur":"btn-bgn");
-  document.getElementById("paidCur").textContent=paidCurrency==="EUR"?"€":"лв.";
+  currencyBtn.className="currency "+(paidCurrency==="EUR"?"btn-eur":"btn-bgn");
+  paidCur.textContent=paidCurrency==="EUR"?"€":"лв.";
+  document.querySelector(".cur-main").textContent=paidCurrency==="EUR"?"€":"лв.";
+  document.querySelector(".cur-alt").textContent=paidCurrency==="EUR"?"лв.":"€";
   calculate();
 }
 
 function calculate(){
-  const billEUR=parseBG(bill.value);
-  const paidVal=parseBG(paid.value);
-  const paidEUR=paidCurrency==="BGN"?paidVal/RATE:paidVal;
-  const restoEUR=paidEUR-billEUR;
-
-  const eurBox=document.getElementById("restoEUR");
-  const bgnBox=document.getElementById("restoBGN");
-
-  eurBox.textContent="Ресто в EUR: "+formatBG(restoEUR);
-  bgnBox.textContent="Ресто в BGN: "+formatBG(restoEUR*RATE);
-
-  if(restoEUR<0){
-    eurBox.className="result red";
-    bgnBox.className="result red";
-  }else if(restoEUR===0){
-    eurBox.className="result gray";
-    bgnBox.className="result gray";
-  }else{
-    eurBox.className="result blue";
-    bgnBox.className="result green";
-  }
+  const r=(paidCurrency==="BGN"?parseBG(paid.value)/RATE:parseBG(paid.value))-parseBG(bill.value);
+  restoEUR.textContent="Ресто в EUR: "+formatBG(r);
+  restoBGN.textContent="Ресто в BGN: "+formatBG(r*RATE);
+  restoEUR.className="result "+(r<0?"red":r===0?"gray":"blue");
+  restoBGN.className="result "+(r<0?"red":r===0?"gray":"green");
 }
+
+document.addEventListener("keydown",e=>{
+  if(e.key==='Tab'){
+    e.preventDefault();
+    setActive(activeInput===bill?paid:bill,
+              activeInput===bill?paid.parentElement:bill.parentElement);
+  }else if(e.code==="Space"){e.preventDefault();toggleCurrency();}
+  else if(e.key>='0'&&e.key<='9')pressKey(e.key);
+  else if(e.key===','||e.key==='.')pressKey(',');
+  else if(e.key==='Backspace')backspace();
+  else if(e.key==='Delete'||e.key==='Escape')clearField();
+});
 
 function pressKey(k){
   if(!activeInput)return;
-  let v=activeInput.value;
-  if(k===',' && v.includes(','))return;
-  if(v.includes(',') && v.split(',')[1].length>=2)return;
-  activeInput.value=v+k;
+  if(k===','&&activeInput.value.includes(','))return;
+  if(activeInput.value.includes(',')&&activeInput.value.split(',')[1].length>=2)return;
+  activeInput.value+=k;
   calculate();
 }
+function backspace(){if(activeInput){activeInput.value=activeInput.value.slice(0,-1);calculate();}}
+function clearField(){if(activeInput){activeInput.value="";calculate();}}
 
-function backspace(){
-  if(!activeInput)return;
-  activeInput.value=activeInput.value.slice(0,-1);
-  calculate();
-}
-
-function clearField(){
-  if(!activeInput)return;
-  activeInput.value="";
-  calculate();
-}
-
-window.onload=()=>setActive(bill,document.querySelector(".field"));
+window.onload=()=>setActive(bill,bill.parentElement);
 </script>
 
 </body>
