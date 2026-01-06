@@ -6,6 +6,11 @@
 <title>РЕСТО КАЛКУЛАТОР</title>
 
 <style>
+/* ❌ СПИРА double-tap zoom (iOS Safari) */
+*{
+  touch-action: manipulation;
+}
+
 body{
   margin:0;
   background:#2b2b2b;
@@ -40,20 +45,20 @@ h1{
   font-size:12px;
   margin:6px 0 12px;
   color:#aaa;
-  white-space:nowrap;   /* 🔒 държи на един ред */
+  white-space:nowrap;
 }
 .author{color:#2196f3;font-weight:bold;}
 .union{color:#fff;font-weight:800;}
 
 .author-img{
-  height:32px;   /* -10% */
+  height:32px;
   width:32px;
   border-radius:50%;
   object-fit:cover;
   border:1px solid #555;
 }
 .union-logo{
-  height:15px;   /* -25% */
+  height:15px;
   width:auto;
 }
 .union-wrap{
@@ -260,6 +265,14 @@ button.currency:active{
 </div>
 
 <script>
+/* ❌ JS защита срещу double-tap zoom (iOS) */
+let lastTouchEnd=0;
+document.addEventListener('touchend',function(e){
+  const now=Date.now();
+  if(now-lastTouchEnd<=300){e.preventDefault();}
+  lastTouchEnd=now;
+},{passive:false});
+
 /* ===== НЕВИДИМ БРОЯЧ ===== */
 const NAMESPACE="chavdar-resto-kalkulator";
 fetch(`https://api.countapi.xyz/hit/${NAMESPACE}/total`);
