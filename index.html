@@ -273,15 +273,24 @@ document.addEventListener('touchend',function(e){
   lastTouchEnd=now;
 },{passive:false});
 
-/* ===== НЕВИДИМ БРОЯЧ ===== */
-const NAMESPACE="chavdar-resto-kalkulator";
-fetch(`https://api.countapi.xyz/hit/${NAMESPACE}/total`);
-if(!localStorage.getItem("visited-"+NAMESPACE)){
-  localStorage.setItem("visited-"+NAMESPACE,"1");
-  fetch(`https://api.countapi.xyz/hit/${NAMESPACE}/unique`);
-}
+/* ===== СОБСТВЕН БРОЯЧ (LOCAL) ===== */
+const STATS_KEY="resto_kalkulator_stats";
+let stats=JSON.parse(localStorage.getItem(STATS_KEY))||{total:0};
+stats.total++;
+localStorage.setItem(STATS_KEY,JSON.stringify(stats));
 
-/* ===== ЛОГИКА ===== */
+/* Ctrl + Alt + S → показва статистиката */
+document.addEventListener("keydown",e=>{
+  if(e.ctrlKey && e.altKey && e.key.toLowerCase()==="s"){
+    alert(
+      "📊 Статистика\n\n"+
+      "Общо отваряния: "+stats.total+"\n"+
+      "Уникално устройство: Да"
+    );
+  }
+});
+
+/* ===== ЛОГИКА НА КАЛКУЛАТОРА ===== */
 const RATE=1.95583;
 let paidCurrency="EUR";
 let activeInput=null;
