@@ -273,23 +273,6 @@ document.addEventListener('touchend',function(e){
   lastTouchEnd=now;
 },{passive:false});
 
-/* ===== СОБСТВЕН БРОЯЧ (LOCAL) ===== */
-const STATS_KEY="resto_kalkulator_stats";
-let stats=JSON.parse(localStorage.getItem(STATS_KEY))||{total:0};
-stats.total++;
-localStorage.setItem(STATS_KEY,JSON.stringify(stats));
-
-/* Ctrl + Alt + S → показва статистиката */
-document.addEventListener("keydown",e=>{
-  if(e.ctrlKey && e.altKey && e.key.toLowerCase()==="s"){
-    alert(
-      "📊 Статистика\n\n"+
-      "Общо отваряния: "+stats.total+"\n"+
-      "Уникално устройство: Да"
-    );
-  }
-});
-
 /* ===== ЛОГИКА НА КАЛКУЛАТОРА ===== */
 const RATE=1.95583;
 let paidCurrency="EUR";
@@ -347,6 +330,10 @@ function clearField(){if(activeInput){activeInput.value="";calculate();}}
 
 window.onload=()=>setActive(bill,bill.parentElement);
 </script>
+
+<!-- GoatCounter -->
+<script data-goatcounter="https://resto-kalkulator.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
 
 </body>
 </html>
