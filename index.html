@@ -36,31 +36,30 @@ h1{
   display:flex;
   align-items:flex-end;
   justify-content:center;
-  gap:8px;
+  gap:6px;
   font-size:12px;
   margin:6px 0 12px;
   color:#aaa;
-  flex-wrap:wrap;
+  white-space:nowrap;   /* 🔒 държи на един ред */
 }
 .author{color:#2196f3;font-weight:bold;}
 .union{color:#fff;font-weight:800;}
 
 .author-img{
-  height:36px;
-  width:36px;
+  height:32px;   /* -10% */
+  width:32px;
   border-radius:50%;
   object-fit:cover;
   border:1px solid #555;
 }
 .union-logo{
-  height:20px;
+  height:15px;   /* -25% */
   width:auto;
 }
-.author-wrap,
 .union-wrap{
   display:inline-flex;
   align-items:flex-end;
-  gap:6px;
+  gap:4px;
 }
 
 /* ===== ПОЛЕТА ===== */
@@ -261,7 +260,7 @@ button.currency:active{
 </div>
 
 <script>
-/* ===== НЕВИДИМИ БРОЯЧИ ===== */
+/* ===== НЕВИДИМ БРОЯЧ ===== */
 const NAMESPACE="chavdar-resto-kalkulator";
 fetch(`https://api.countapi.xyz/hit/${NAMESPACE}/total`);
 if(!localStorage.getItem("visited-"+NAMESPACE)){
@@ -303,15 +302,15 @@ function calculate(){
 }
 
 document.addEventListener("keydown",e=>{
-  if(e.key==='Tab'){
+  if(e.key==="Tab"){
     e.preventDefault();
     setActive(activeInput===bill?paid:bill,
-              activeInput===bill?paid.parentElement:bill.parentElement);
+      activeInput===bill?paid.parentElement:bill.parentElement);
   }else if(e.code==="Space"){e.preventDefault();toggleCurrency();}
   else if(e.key>='0'&&e.key<='9')pressKey(e.key);
   else if(e.key===','||e.key==='.')pressKey(',');
-  else if(e.key==='Backspace')backspace();
-  else if(e.key==='Delete'||e.key==='Escape')clearField();
+  else if(e.key==="Backspace")backspace();
+  else if(e.key==="Delete"||e.key==="Escape")clearField();
 });
 
 function pressKey(k){
